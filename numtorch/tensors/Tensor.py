@@ -1,28 +1,68 @@
+import uuid
 import numpy as np
 
 from numtorch.operations.Add import Add
 
 
 class Tensor (object):
-    def __init__(self, data, meta={}) -> None:
+    def __init__(self, data, meta={}):
+        self.id = str(uuid.uuid4())
         self.data = np.array(data)
         self.grad = None
-        self.meta = {"opcode": None, "parents": None, **meta}
 
         self.ops = {
             "add": Add(self)
         }
 
+        self.meta = {
+            "opcode": "",
+            "parents": [],
+            "autograd": False,
+            "children": {},
+            **meta
+        }
+
+        for parent in self.meta["parents"]:
+            if(self.id not in parent.meta["children"]):
+                parent.meta["children"][self.id] = 1
+            else:
+                parent.meta["children"][self.id] += 1
+                
     @staticmethod
     def tensor(data, meta={}):
         return Tensor(data, meta)
 
-    def backward(self, grad):
-        self.grad = grad
+    def have_grads_accumulated(self):
+        for count in self.meta["children"].values():
+            if count != 0:
+                return False
 
-        for key, op in self.ops.items():
-            if self.meta["opcode"] is not None and key in self.meta["opcode"]:
-                op.backward(grad)
+        return True
+
+    def backward(self, grad=None, origin=None):
+        if self.meta["autograd"] == False:
+            return None
+        
+        if grad is None:
+            grad = Tensor(np.ones_like(self.data))
+
+        assert grad.meta["autograd"] == False
+
+        if origin is not None:
+            if self.meta["children"][origin.id] == 0:
+                raise Exception("cannot backprop more than once")
+
+            self.meta["children"][origin.id] -= 1
+
+        if self.grad is None:
+            self.grad = grad
+        else:
+            self.grad += grad
+
+        if self.meta["parents"] is not None and (self.have_grads_accumulated() or origin is None):
+            for key, op in self.ops.items():
+                if key in self.meta["opcode"]:
+                    op.backward(grad)
 
     def __add__(self, other):
         return self.ops["add"].forward(other)
