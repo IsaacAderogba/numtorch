@@ -1,19 +1,7 @@
 import uuid
 import numpy as np
 
-from numtorch.operations.AddOperation import AddOperation
-from numtorch.operations.CrossEntropyOperation import CrossEntropyOperation
-from numtorch.operations.DotProductOperation import DotProductOperation
-from numtorch.operations.ExpandOperation import ExpandOperation
-from numtorch.operations.IndexOperation import IndexOperation
-from numtorch.operations.MultiplyOperation import MultiplyOperation
-from numtorch.operations.NegateOperation import NegateOperation
-from numtorch.operations.ReLUOperation import ReLUOperation
-from numtorch.operations.SigmoidOperation import SigmoidOperation
-from numtorch.operations.SubtractOperation import SubtractOperation
-from numtorch.operations.SumOperation import SumOperation
-from numtorch.operations.TanhOperation import TanhOperation
-from numtorch.operations.TransposeOperation import TransposeOperation
+from numtorch.tensors.TensorOps import TensorOps
 
 
 class Tensor (object):
@@ -21,22 +9,7 @@ class Tensor (object):
         self.id = str(uuid.uuid4())
         self.data = np.array(data)
         self.grad = None
-
-        self.ops = {
-            "add": AddOperation(self),
-            "neg": NegateOperation(self),
-            "sub": SubtractOperation(self),
-            "mul": MultiplyOperation(self),
-            "sum": SumOperation(self),
-            "expand": ExpandOperation(self),
-            "transpose": TransposeOperation(self),
-            "dot": DotProductOperation(self),
-            "sigmoid": SigmoidOperation(self),
-            "tanh": TanhOperation(self),
-            "index": IndexOperation(self),
-            "cross_entropy": CrossEntropyOperation(self),
-            "relu": ReLUOperation(self)
-        }
+        self.ops = TensorOps(self)
 
         self.meta = {
             "opcode": "",
@@ -84,48 +57,45 @@ class Tensor (object):
             self.grad += grad
 
         if self.meta["parents"] is not None and (self.have_grads_accumulated() or ctx is None):
-            for key, op in self.ops.items():
-                if key == self.meta["opcode"]:
-                    op.backward(grad)
+            if hasattr(self.ops, self.meta["opcode"]):
+                op = getattr(self.ops, self.meta["opcode"])
+                op.backward(grad)
 
     def __add__(self, other):
-        return self.ops["add"].forward(other)
+        return self.ops.add.forward(other)
 
     def __sub__(self, other):
-        return self.ops["sub"].forward(other)
+        return self.ops.sub.forward(other)
 
     def __neg__(self):
-        return self.ops["neg"].forward()
+        return self.ops.neg.forward()
 
     def __mul__(self, other):
-        return self.ops["mul"].forward(other)
+        return self.ops.mul.forward(other)
 
     def sum(self, dim):
-        return self.ops["sum"].forward(dim)
+        return self.ops.sum.forward(dim)
 
     def expand(self, dim, copies):
-        return self.ops["expand"].forward(dim, copies)
+        return self.ops.expand.forward(dim, copies)
 
     def transpose(self):
-        return self.ops["transpose"].forward()
+        return self.ops.transpose.forward()
 
     def dot(self, other):
-        return self.ops["dot"].forward(other)
+        return self.ops.dot.forward(other)
 
     def sigmoid(self):
-        return self.ops["sigmoid"].forward()
+        return self.ops.sigmoid.forward()
 
     def tanh(self):
-        return self.ops["tanh"].forward()
+        return self.ops.tanh.forward()
 
     def index(self, indices):
-        return self.ops["index"].forward(indices)
+        return self.ops.index.forward(indices)
 
     def cross_entropy(self, indices):
-        return self.ops["cross_entropy"].forward(indices)
-
-    def relu(self):
-        return self.ops["relu"].forward()
+        return self.ops.cross_entropy.forward(indices)
 
     def __repr__(self):
         return str(self.data.__repr__())

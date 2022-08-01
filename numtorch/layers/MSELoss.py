@@ -6,4 +6,5 @@ class MSELoss(Layer):
         return []
         
     def forward(self, pred, target):
-        return ((pred - target) * (pred - target)).sum(0)
+        error = pred - target
+        return (error * error).sum(0)
