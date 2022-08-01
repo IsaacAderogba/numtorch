@@ -9,7 +9,8 @@ np.random.seed(0)
 # a = Tensor([
 #     1, 2, 3, 4, 5
 # ], {"autograd": True})
-# b = a.sigmoid()
+# b = a.tanh()
+# print(b)
 # b.backward(Tensor([1, 1, 1, 1, 1]))
 # print(a.grad)
 

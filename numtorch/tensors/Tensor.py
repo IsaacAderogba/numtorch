@@ -9,6 +9,7 @@ from numtorch.operations.NegateOperation import NegateOperation
 from numtorch.operations.SigmoidOperation import SigmoidOperation
 from numtorch.operations.SubtractOperation import SubtractOperation
 from numtorch.operations.SumOperation import SumOperation
+from numtorch.operations.TanhOperation import TanhOperation
 from numtorch.operations.TransposeOperation import TransposeOperation
 
 
@@ -28,7 +29,8 @@ class Tensor (object):
             "expand": ExpandOperation(self),
             "transpose": TransposeOperation(self),
             "dot": DotProductOperation(self),
-            "sigmoid": SigmoidOperation(self)
+            "sigmoid": SigmoidOperation(self),
+            "tanh": TanhOperation(self)
         }
 
         self.meta = {
@@ -107,6 +109,9 @@ class Tensor (object):
 
     def sigmoid(self):
         return self.ops["sigmoid"].forward()
+
+    def tanh(self):
+        return self.ops["tanh"].forward()
 
     def __repr__(self):
         return str(self.data.__repr__())
