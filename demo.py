@@ -1,17 +1,16 @@
 import numpy as np
 
-from numtorch.layers import LinearLayer, SequentialLayer, TanhNonLayer, SigmoidNonLayer, MSELossLayer
+from numtorch.layers import LinearLayer, EmbeddingLayer, SequentialLayer, TanhNonLayer, SigmoidNonLayer, MSELossLayer
 from numtorch.tensors import Tensor
 from numtorch.optimizers import SGDOptimizer
 
 np.random.seed(0)
 
-
-data = Tensor(np.array([[0, 0], [0, 1], [1, 0], [1, 1]]), {"autograd": True})
+data = Tensor(np.array([1, 2, 1, 2]), {"autograd": True})
 target = Tensor(np.array([[0], [1], [0], [1]]), {"autograd": True})
 
 model = SequentialLayer()
-model.add(LinearLayer(2, 3))
+model.add(EmbeddingLayer(5,3))
 model.add(TanhNonLayer())
 model.add(LinearLayer(3, 1))
 model.add(SigmoidNonLayer())
@@ -19,7 +18,7 @@ model.add(SigmoidNonLayer())
 criterion = MSELossLayer()
 
 
-optimizer = SGDOptimizer(params=model.get_params(), alpha=1)
+optimizer = SGDOptimizer(params=model.get_params(), alpha=0.5)
 
 for i in range(10):
     pred = model.forward(data)

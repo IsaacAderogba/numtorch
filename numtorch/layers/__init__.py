@@ -1,5 +1,6 @@
 
 from .Layer import *
+from .EmbeddingLayer import *
 from .LinearLayer import *
 from .SequentialLayer import *
 

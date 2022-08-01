@@ -4,6 +4,7 @@ import numpy as np
 from numtorch.operations.AddOperation import AddOperation
 from numtorch.operations.DotProductOperation import DotProductOperation
 from numtorch.operations.ExpandOperation import ExpandOperation
+from numtorch.operations.IndexOperation import IndexOperation
 from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
 from numtorch.operations.SigmoidOperation import SigmoidOperation
@@ -30,7 +31,8 @@ class Tensor (object):
             "transpose": TransposeOperation(self),
             "dot": DotProductOperation(self),
             "sigmoid": SigmoidOperation(self),
-            "tanh": TanhOperation(self)
+            "tanh": TanhOperation(self),
+            "index": IndexOperation(self)
         }
 
         self.meta = {
@@ -112,6 +114,9 @@ class Tensor (object):
 
     def tanh(self):
         return self.ops["tanh"].forward()
+
+    def index(self, indices):
+        return self.ops["index"].forward(indices)
 
     def __repr__(self):
         return str(self.data.__repr__())
