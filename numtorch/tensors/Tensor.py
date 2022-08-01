@@ -2,6 +2,7 @@ import uuid
 import numpy as np
 
 from numtorch.operations.AddOperation import AddOperation
+from numtorch.operations.DotProductOperation import DotProductOperation
 from numtorch.operations.ExpandOperation import ExpandOperation
 from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
@@ -23,7 +24,8 @@ class Tensor (object):
             "mul": MultiplyOperation(self),
             "sum": SumOperation(self),
             "expand": ExpandOperation(self),
-            "transpose": TransposeOperation(self)
+            "transpose": TransposeOperation(self),
+            "dot": DotProductOperation(self)
         }
 
         self.meta = {
@@ -96,6 +98,9 @@ class Tensor (object):
 
     def transpose(self):
         return self.ops["transpose"].forward()
+
+    def dot(self, other):
+        return self.ops["dot"].forward(other)
 
     def __repr__(self):
         return str(self.data.__repr__())
