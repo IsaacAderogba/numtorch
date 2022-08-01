@@ -1,7 +1,7 @@
 from numtorch.layers.Layer import Layer
 
 
-class MSELossLayer(Layer):
+class MSELoss(Layer):
     def get_params(self):
         return []
         

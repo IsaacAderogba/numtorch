@@ -1,9 +1,9 @@
 from numtorch.layers.Layer import Layer
 
 
-class TanhNonLayer(Layer):
+class SigmoidNonLinearity(Layer):
     def get_params(self):
         return []
         
     def forward(self, input):
-        return input.tanh()
+        return input.sigmoid()

@@ -4,8 +4,8 @@ from .EmbeddingLayer import *
 from .LinearLayer import *
 from .SequentialLayer import *
 
-from .SigmoidNonLayer import *
-from .TanhNonLayer import *
+from .SigmoidNonLinearity import *
+from .TanhNonLinearity import *
 
-from .MSELossLayer import *
-from .CrossEntropyLossLayer import *
+from .MSELoss import *
+from .CrossEntropyLoss import *

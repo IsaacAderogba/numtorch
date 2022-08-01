@@ -1,7 +1,7 @@
 from numtorch.layers.Layer import Layer
 
 
-class CrossEntropyLossLayer(Layer):
+class CrossEntropyLoss(Layer):
     def get_params(self):
         return []
 
