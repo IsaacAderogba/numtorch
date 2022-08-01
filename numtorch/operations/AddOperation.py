@@ -1,5 +1,9 @@
-class Add(object):
+from numtorch.operations.Operation import Operation
+
+
+class AddOperation(Operation):
     opcode = "add"
+    ctx = None
 
     def __init__(self, ctx):
         self.ctx = ctx
