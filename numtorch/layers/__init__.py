@@ -8,3 +8,4 @@ from .SigmoidNonLayer import *
 from .TanhNonLayer import *
 
 from .MSELossLayer import *
+from .CrossEntropyLossLayer import *

@@ -1,24 +1,22 @@
 import numpy as np
 
-from numtorch.layers import LinearLayer, EmbeddingLayer, SequentialLayer, TanhNonLayer, SigmoidNonLayer, MSELossLayer
+from numtorch.layers import LinearLayer, EmbeddingLayer, SequentialLayer, TanhNonLayer, SigmoidNonLayer, CrossEntropyLossLayer
 from numtorch.tensors import Tensor
 from numtorch.optimizers import SGDOptimizer
 
 np.random.seed(0)
 
 data = Tensor(np.array([1, 2, 1, 2]), {"autograd": True})
-target = Tensor(np.array([[0], [1], [0], [1]]), {"autograd": True})
+target = Tensor(np.array([0, 1, 0, 1]), {"autograd": True})
 
 model = SequentialLayer()
-model.add(EmbeddingLayer(5,3))
+model.add(EmbeddingLayer(3, 3))
 model.add(TanhNonLayer())
-model.add(LinearLayer(3, 1))
-model.add(SigmoidNonLayer())
+model.add(LinearLayer(3, 4))
 
-criterion = MSELossLayer()
+criterion = CrossEntropyLossLayer()
 
-
-optimizer = SGDOptimizer(params=model.get_params(), alpha=0.5)
+optimizer = SGDOptimizer(params=model.get_params(), alpha=0.1)
 
 for i in range(10):
     pred = model.forward(data)

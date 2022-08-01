@@ -2,6 +2,7 @@ import uuid
 import numpy as np
 
 from numtorch.operations.AddOperation import AddOperation
+from numtorch.operations.CrossEntropyOperation import CrossEntropyOperation
 from numtorch.operations.DotProductOperation import DotProductOperation
 from numtorch.operations.ExpandOperation import ExpandOperation
 from numtorch.operations.IndexOperation import IndexOperation
@@ -32,7 +33,8 @@ class Tensor (object):
             "dot": DotProductOperation(self),
             "sigmoid": SigmoidOperation(self),
             "tanh": TanhOperation(self),
-            "index": IndexOperation(self)
+            "index": IndexOperation(self),
+            "cross_entropy": CrossEntropyOperation(self)
         }
 
         self.meta = {
@@ -117,6 +119,9 @@ class Tensor (object):
 
     def index(self, indices):
         return self.ops["index"].forward(indices)
+
+    def cross_entropy(self, indices):
+        return self.ops["cross_entropy"].forward(indices)
 
     def __repr__(self):
         return str(self.data.__repr__())
