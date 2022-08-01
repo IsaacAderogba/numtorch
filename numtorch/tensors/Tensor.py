@@ -6,6 +6,7 @@ from numtorch.operations.DotProductOperation import DotProductOperation
 from numtorch.operations.ExpandOperation import ExpandOperation
 from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
+from numtorch.operations.SigmoidOperation import SigmoidOperation
 from numtorch.operations.SubtractOperation import SubtractOperation
 from numtorch.operations.SumOperation import SumOperation
 from numtorch.operations.TransposeOperation import TransposeOperation
@@ -13,7 +14,7 @@ from numtorch.operations.TransposeOperation import TransposeOperation
 
 class Tensor (object):
     def __init__(self, data, meta={}):
-        self.id = np.random.randint(0,100000)
+        self.id = np.random.randint(0, 100000)
         # self.id = str(uuid.uuid4())
         self.data = np.array(data)
         self.grad = None
@@ -26,7 +27,8 @@ class Tensor (object):
             "sum": SumOperation(self),
             "expand": ExpandOperation(self),
             "transpose": TransposeOperation(self),
-            "dot": DotProductOperation(self)
+            "dot": DotProductOperation(self),
+            "sigmoid": SigmoidOperation(self)
         }
 
         self.meta = {
@@ -102,6 +104,9 @@ class Tensor (object):
 
     def dot(self, other):
         return self.ops["dot"].forward(other)
+
+    def sigmoid(self):
+        return self.ops["sigmoid"].forward()
 
     def __repr__(self):
         return str(self.data.__repr__())

@@ -6,6 +6,14 @@ from numtorch.optimizers import SGDOptimizer
 
 np.random.seed(0)
 
+# a = Tensor([
+#     1, 2, 3, 4, 5
+# ], {"autograd": True})
+# b = a.sigmoid()
+# b.backward(Tensor([1, 1, 1, 1, 1]))
+# print(a.grad)
+
+
 data = Tensor(np.array([[0, 0], [0, 1], [1, 0], [1, 1]]), {"autograd": True})
 target = Tensor(np.array([[0], [1], [0], [1]]), {"autograd": True})
 
