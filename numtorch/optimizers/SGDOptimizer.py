@@ -1,5 +1,5 @@
 
-class SDGOptimizer(object):
+class SGDOptimizer(object):
     def __init__(self, params, alpha=0.1):
         self.params = params
         self.alpha = alpha
