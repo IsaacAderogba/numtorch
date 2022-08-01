@@ -7,8 +7,8 @@ from .SequentialLayer import *
 
 from .RecurrentCell import *
 
-from .SigmoidNonLinearity import *
-from .TanhNonLinearity import *
+from .Sigmoid import *
+from .Tanh import *
 
 from .MSELoss import *
 from .CrossEntropyLoss import *

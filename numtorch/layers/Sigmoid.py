@@ -1,7 +1,7 @@
 from numtorch.layers.Layer import Layer
 
 
-class SigmoidNonLinearity(Layer):
+class Sigmoid(Layer):
     def get_params(self):
         return []
         

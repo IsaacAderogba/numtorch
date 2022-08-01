@@ -1,7 +1,7 @@
 from numtorch.layers.Layer import Layer
 
 
-class TanhNonLinearity(Layer):
+class Tanh(Layer):
     def get_params(self):
         return []
         

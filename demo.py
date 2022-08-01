@@ -1,6 +1,6 @@
 import numpy as np
 
-from numtorch.layers import LinearLayer, EmbeddingLayer, SequentialLayer, TanhNonLinearity, SigmoidNonLinearity, CrossEntropyLoss
+from numtorch.layers import LinearLayer, EmbeddingLayer, SequentialLayer, Tanh, CrossEntropyLoss
 from numtorch.tensors import Tensor
 from numtorch.optimizers import SGDOptimizer
 
@@ -11,7 +11,7 @@ target = Tensor(np.array([0, 1, 0, 1]), {"autograd": True})
 
 model = SequentialLayer()
 model.add(EmbeddingLayer(3, 3))
-model.add(TanhNonLinearity())
+model.add(Tanh())
 model.add(LinearLayer(3, 4))
 
 criterion = CrossEntropyLoss()
