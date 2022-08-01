@@ -8,6 +8,7 @@ from numtorch.operations.ExpandOperation import ExpandOperation
 from numtorch.operations.IndexOperation import IndexOperation
 from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
+from numtorch.operations.ReLUOperation import ReLUOperation
 from numtorch.operations.SigmoidOperation import SigmoidOperation
 from numtorch.operations.SubtractOperation import SubtractOperation
 from numtorch.operations.SumOperation import SumOperation
@@ -33,7 +34,8 @@ class Tensor (object):
             "sigmoid": SigmoidOperation(self),
             "tanh": TanhOperation(self),
             "index": IndexOperation(self),
-            "cross_entropy": CrossEntropyOperation(self)
+            "cross_entropy": CrossEntropyOperation(self),
+            "relu": ReLUOperation(self)
         }
 
         self.meta = {
@@ -121,6 +123,9 @@ class Tensor (object):
 
     def cross_entropy(self, indices):
         return self.ops["cross_entropy"].forward(indices)
+
+    def relu(self):
+        return self.ops["relu"].forward()
 
     def __repr__(self):
         return str(self.data.__repr__())
