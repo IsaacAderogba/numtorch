@@ -7,6 +7,7 @@ from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
 from numtorch.operations.SubtractOperation import SubtractOperation
 from numtorch.operations.SumOperation import SumOperation
+from numtorch.operations.TransposeOperation import TransposeOperation
 
 
 class Tensor (object):
@@ -21,7 +22,8 @@ class Tensor (object):
             "sub": SubtractOperation(self),
             "mul": MultiplyOperation(self),
             "sum": SumOperation(self),
-            "expand": ExpandOperation(self)
+            "expand": ExpandOperation(self),
+            "transpose": TransposeOperation(self)
         }
 
         self.meta = {
@@ -91,6 +93,9 @@ class Tensor (object):
 
     def expand(self, dim, copies):
         return self.ops["expand"].forward(dim, copies)
+
+    def transpose(self):
+        return self.ops["transpose"].forward()
 
     def __repr__(self):
         return str(self.data.__repr__())

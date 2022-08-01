@@ -1,15 +1,15 @@
 from numtorch.operations.Operation import Operation
 
 
-class NegateOperation(Operation):
-    opcode = "neg"
+class TransposeOperation(Operation):
+    opcode = "transpose"
     ctx = None
 
     def __init__(self, ctx):
         self.ctx = ctx
 
     def forward(self):
-        data = self.ctx.data * -1
+        data = self.ctx.data.transpose()
 
         if self.ctx.meta["autograd"]:
             return self.ctx.tensor(data, {
@@ -22,4 +22,4 @@ class NegateOperation(Operation):
 
     def backward(self, grad):
         parent = self.ctx.meta["parents"][0]
-        parent.backward(self.ctx.grad.__neg__(), self.ctx)
+        parent.backward(self.ctx.grad.transpose(), self.ctx)
