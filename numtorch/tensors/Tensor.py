@@ -2,9 +2,11 @@ import uuid
 import numpy as np
 
 from numtorch.operations.AddOperation import AddOperation
+from numtorch.operations.ExpandOperation import ExpandOperation
 from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
 from numtorch.operations.SubtractOperation import SubtractOperation
+from numtorch.operations.SumOperation import SumOperation
 
 
 class Tensor (object):
@@ -17,7 +19,9 @@ class Tensor (object):
             "add": AddOperation(self),
             "neg": NegateOperation(self),
             "sub": SubtractOperation(self),
-            "mul": MultiplyOperation(self)
+            "mul": MultiplyOperation(self),
+            "sum": SumOperation(self),
+            "expand": ExpandOperation(self)
         }
 
         self.meta = {
@@ -67,7 +71,7 @@ class Tensor (object):
 
         if self.meta["parents"] is not None and (self.have_grads_accumulated() or ctx is None):
             for key, op in self.ops.items():
-                if key in self.meta["opcode"]:
+                if key == self.meta["opcode"]:
                     op.backward(grad)
 
     def __add__(self, other):
@@ -81,6 +85,12 @@ class Tensor (object):
 
     def __mul__(self, other):
         return self.ops["mul"].forward(other)
+
+    def sum(self, dim):
+        return self.ops["sum"].forward(dim)
+
+    def expand(self, dim, copies):
+        return self.ops["expand"].forward(dim, copies)
 
     def __repr__(self):
         return str(self.data.__repr__())
