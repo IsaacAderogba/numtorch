@@ -3,6 +3,7 @@ import numpy as np
 
 from numtorch.operations.AddOperation import AddOperation
 from numtorch.operations.NegateOperation import NegateOperation
+from numtorch.operations.SubtractOperation import SubtractOperation
 
 
 class Tensor (object):
@@ -13,7 +14,8 @@ class Tensor (object):
 
         self.ops = {
             "add": AddOperation(self),
-            "neg": NegateOperation(self)
+            "neg": NegateOperation(self),
+            "sub": SubtractOperation(self)
         }
 
         self.meta = {
@@ -68,6 +70,9 @@ class Tensor (object):
 
     def __add__(self, other):
         return self.ops["add"].forward(other)
+
+    def __sub__(self, other):
+        return self.ops["sub"].forward(other)
 
     def __neg__(self):
         return self.ops["neg"].forward()
