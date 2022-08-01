@@ -17,8 +17,7 @@ from numtorch.operations.TransposeOperation import TransposeOperation
 
 class Tensor (object):
     def __init__(self, data, meta={}):
-        self.id = np.random.randint(0, 100000)
-        # self.id = str(uuid.uuid4())
+        self.id = str(uuid.uuid4())
         self.data = np.array(data)
         self.grad = None
 
