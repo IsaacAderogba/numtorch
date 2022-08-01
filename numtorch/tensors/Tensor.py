@@ -2,6 +2,7 @@ import uuid
 import numpy as np
 
 from numtorch.operations.AddOperation import AddOperation
+from numtorch.operations.MultiplyOperation import MultiplyOperation
 from numtorch.operations.NegateOperation import NegateOperation
 from numtorch.operations.SubtractOperation import SubtractOperation
 
@@ -15,7 +16,8 @@ class Tensor (object):
         self.ops = {
             "add": AddOperation(self),
             "neg": NegateOperation(self),
-            "sub": SubtractOperation(self)
+            "sub": SubtractOperation(self),
+            "mul": MultiplyOperation(self)
         }
 
         self.meta = {
@@ -76,6 +78,9 @@ class Tensor (object):
 
     def __neg__(self):
         return self.ops["neg"].forward()
+
+    def __mul__(self, other):
+        return self.ops["mul"].forward(other)
 
     def __repr__(self):
         return str(self.data.__repr__())
