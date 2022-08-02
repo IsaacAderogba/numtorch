@@ -4,6 +4,7 @@ from numtorch.layers import LinearLayer, EmbeddingLayer, SequentialLayer, Tanh, 
 from numtorch.tensors import Tensor
 from numtorch.optimizers import SGDOptimizer
 
+
 np.random.seed(0)
 
 data = Tensor(np.array([1, 2, 1, 2]), {"autograd": True})
