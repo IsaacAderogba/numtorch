@@ -97,6 +97,9 @@ class Tensor (object):
     def cross_entropy(self, indices):
         return self.ops.cross_entropy.forward(indices)
 
+    def relu(self):
+        return self.ops.relu.forward()
+
     def __repr__(self):
         return str(self.data.__repr__())
 

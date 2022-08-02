@@ -1,8 +1,8 @@
 
 class SGDOptimizer(object):
-    def __init__(self, params, alpha=0.1):
+    def __init__(self, params, lr=0.1):
         self.params = params
-        self.alpha = alpha
+        self.lr = lr
 
     def zero(self):
         for param in self.params:
@@ -10,7 +10,7 @@ class SGDOptimizer(object):
 
     def step(self, zero=True):
         for p in self.params:
-            p.data -= p.grad.data * self.alpha
+            p.data -= p.grad.data * self.lr
 
             if (zero):
                 p.grad.data *= 0

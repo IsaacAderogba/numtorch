@@ -16,7 +16,7 @@ class CrossEntropyOperation(Operation):
             keepdims=True
         )
 
-        t = indices.data.flatten()
+        t = indices.data.flatten().astype(int)
         p = softmax_output.reshape(len(t), -1)
         target_dist = np.eye(p.shape[1])[t]
         loss = -(np.log(p) * (target_dist)).sum(1).mean()
