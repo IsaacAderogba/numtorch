@@ -11,12 +11,11 @@ class CrossEntropyOperation(Operation):
 
     def forward(self, indices):
         temp = np.exp(self.ctx.data)
-        softmax_output = temp / np.sum(
-            temp, axis=len(self.ctx.data.shape) - 1,
-            keepdims=True
-        )
+        softmax_output = temp / np.sum(temp,
+                                       axis=len(self.ctx.data.shape)-1,
+                                       keepdims=True)
 
-        t = indices.data.flatten().astype(int)
+        t = indices.data.flatten()
         p = softmax_output.reshape(len(t), -1)
         target_dist = np.eye(p.shape[1])[t]
         loss = -(np.log(p) * (target_dist)).sum(1).mean()

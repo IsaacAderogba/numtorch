@@ -30,9 +30,9 @@ class RecurrentCell(Layer):
         return self.params
 
     def forward(self, input, hidden):
-        input_hidden = self.weight_input_hidden.forward(input)
         hidden_hidden = self.weight_hidden_hidden.forward(hidden)
+        input_hidden = self.weight_input_hidden.forward(input)
         next_hidden = self.activation.forward(input_hidden + hidden_hidden)
-        hidden_output = self.weight_hidden_hidden_output(next_hidden)
+        hidden_output = self.weight_hidden_output.forward(next_hidden)
 
         return hidden_output, next_hidden

@@ -4,8 +4,9 @@ import numpy as np
 
 np.random.seed(0)
 
-data = nt.Tensor(np.array([[0, 0], [0, 1], [1, 0], [1, 1]]),
-                 {"autograd": True})
+data = nt.Tensor(np.array(
+    [[0, 0], [0, 1], [1, 0], [1, 1]]),
+    {"autograd": True})
 target = nt.Tensor(np.array([[0], [1], [0], [1]]), {"autograd": True})
 
 model = nt.layers.SequentialLayer([
