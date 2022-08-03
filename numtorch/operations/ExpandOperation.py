@@ -30,4 +30,4 @@ class ExpandOperation(Operation):
         parent = self.ctx.meta["parents"][0]
         dim = self.ctx.meta["dim"]
 
-        parent.backward(self.ctx.grad.sum(dim), self.ctx)
+        parent.backward(self.ctx.grad.sum(dim))

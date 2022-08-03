@@ -27,4 +27,4 @@ class SumOperation(Operation):
         dim = self.ctx.meta["dim"]
         copies = parent.data.shape[dim]
 
-        parent.backward(self.ctx.grad.expand(dim, copies), self.ctx)
+        parent.backward(self.ctx.grad.expand(dim, copies))

@@ -25,4 +25,4 @@ class SigmoidOperation(Operation):
         parent = self.ctx.meta["parents"][0]
         ones = self.ctx.tensor(np.ones_like(self.ctx.grad.data))
 
-        parent.backward(self.ctx.grad * (self.ctx * (ones - self.ctx)), self.ctx)
+        parent.backward(self.ctx.grad * (self.ctx * (ones - self.ctx)))

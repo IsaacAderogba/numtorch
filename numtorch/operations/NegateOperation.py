@@ -22,4 +22,4 @@ class NegateOperation(Operation):
 
     def backward(self, grad):
         parent = self.ctx.meta["parents"][0]
-        parent.backward(self.ctx.grad.__neg__(), self.ctx)
+        parent.backward(self.ctx.grad.__neg__())

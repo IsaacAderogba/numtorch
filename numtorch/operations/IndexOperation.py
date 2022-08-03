@@ -32,4 +32,4 @@ class IndexOperation(Operation):
         for i in range(len(indices)):
             data[indices[i]] += grad[i]
 
-        parent.backward(self.ctx.tensor(data), self.ctx)
+        parent.backward(self.ctx.tensor(data))

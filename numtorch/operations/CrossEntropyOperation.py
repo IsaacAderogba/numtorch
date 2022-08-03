@@ -34,4 +34,4 @@ class CrossEntropyOperation(Operation):
     def backward(self, grad):
         parent = self.ctx.meta["parents"][0]
         data = self.ctx.meta["softmax_output"] - self.ctx.meta["target_dist"]
-        parent.backward(self.ctx.tensor(data), self.ctx)
+        parent.backward(self.ctx.tensor(data))

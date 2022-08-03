@@ -26,6 +26,5 @@ class TanhOperation(Operation):
         ones = self.ctx.tensor(np.ones_like(self.ctx.grad.data))
 
         parent.backward(
-            self.ctx.grad * (ones - (self.ctx * self.ctx)),
-            self.ctx
+            self.ctx.grad * (ones - (self.ctx * self.ctx))
         )

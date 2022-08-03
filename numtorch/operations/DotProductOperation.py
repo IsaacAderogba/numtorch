@@ -22,6 +22,6 @@ class DotProductOperation(Operation):
 
     def backward(self, grad):
         left, right = self.ctx.meta["parents"]
-        left.backward(self.ctx.grad.dot(right.transpose()), self.ctx)
+        left.backward(self.ctx.grad.dot(right.transpose()))
         right.backward(self.ctx.grad.transpose().dot(
-            left).transpose(), self.ctx)
+            left).transpose())

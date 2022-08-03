@@ -22,4 +22,4 @@ class TransposeOperation(Operation):
 
     def backward(self, grad):
         parent = self.ctx.meta["parents"][0]
-        parent.backward(self.ctx.grad.transpose(), self.ctx)
+        parent.backward(self.ctx.grad.transpose())
