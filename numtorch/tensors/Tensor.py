@@ -6,7 +6,8 @@ from numtorch.tensors.TensorOps import TensorOps
 
 class Tensor (object):
     def __init__(self, data, meta={}):
-        self.id = str(uuid.uuid4())
+        # self.id = str(uuid.uuid4())
+        self.id = np.random.randint(0,100000)
         self.data = np.array(data)
         self.grad = None
         self.ops = TensorOps(self)
