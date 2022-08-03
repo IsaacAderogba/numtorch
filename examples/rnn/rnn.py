@@ -5,6 +5,43 @@ import numpy as np
 
 np.random.seed(0)
 
+
+class RNN(nt.layers.Layer):
+    def __init__(self, num_inputs, num_hidden, num_outputs, activation=None):
+        if activation is None:
+            raise Exception("Activation layer expected")
+
+        self.num_inputs = num_inputs
+        self.num_hidden = num_hidden
+        self.num_outputs = num_outputs
+        self.activation = activation
+
+        self.weight_input_hidden = nt.layers.LinearLayer(
+            num_inputs, num_hidden)
+        self.weight_hidden_hidden = nt.layers.LinearLayer(
+            num_hidden, num_hidden)
+        self.weight_hidden_output = nt.layers.LinearLayer(
+            num_hidden, num_outputs)
+
+        self.params = self.weight_input_hidden.get_params()
+        self.params += self.weight_hidden_hidden.get_params()
+        self.params += self.weight_hidden_output.get_params()
+
+    def init_hidden(self, batch_size=1):
+        return nt.Tensor(np.zeros((batch_size, self.num_hidden)), {"autograd": True})
+
+    def get_params(self):
+        return self.params
+
+    def forward(self, input, hidden):
+        hidden_hidden = self.weight_hidden_hidden.forward(hidden)
+        input_hidden = self.weight_input_hidden.forward(input)
+        next_hidden = self.activation.forward(input_hidden + hidden_hidden)
+        hidden_output = self.weight_hidden_output.forward(next_hidden)
+
+        return hidden_output, next_hidden
+
+
 f = open(Path(__file__).parent / "./qa1_single-supporting-fact_train.txt", "r")
 raw = f.readlines()
 f.close()
@@ -51,8 +88,7 @@ for line in tokens:
 data = np.array(indices)
 
 embed = nt.layers.EmbeddingLayer(len(vocab), 16)
-model = nt.layers.RecurrentCell(
-    16, 16, len(vocab), activation=nt.layers.Sigmoid())
+model = RNN(16, 16, len(vocab), activation=nt.layers.Sigmoid())
 
 criterion = nt.layers.CrossEntropyLoss()
 
